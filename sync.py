@@ -155,7 +155,7 @@ def main():
     flow_futuro_h = round(abs(flow_futuro_val) / abs(flow_atual_val) * 100, 1)
     flow_note_pct = round((abs(flow_atual_val) - abs(flow_futuro_val)) / abs(flow_atual_val) * 100)
     flow_note_diff = abs(flow_atual_val) - abs(flow_futuro_val)
-    flow_note_diff_fmt = f"${flow_note_diff:,.0f}".replace(",", ".")
+    flow_note_diff_fmt = f"{flow_note_diff:,.0f}".replace(",", ".")
     flow_note_text = f"Queima de caixa mensal cai {flow_note_pct}% com o ajuste (\u2212${flow_note_diff_fmt}/m\u00eas)"
 
     def fmt_big(v, sign=False):
