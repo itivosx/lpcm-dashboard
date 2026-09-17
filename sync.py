@@ -205,7 +205,7 @@ def main():
     total_subs = 0
     for key, val in values.items():
         pattern = re.compile(r'(data-f="' + re.escape(key) + r'">)[^<]*')
-        html, n = pattern.subn(r"\1" + val.replace("\\", "\\\\"), html)
+        html, n = pattern.subn(r"\g<1>" + val.replace("\\", "\\\\"), html)
         if n != 1:
             die(f"marcador data-f='{key}' casou {n} vezes (esperado 1)")
         total_subs += n
