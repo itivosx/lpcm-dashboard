@@ -126,16 +126,10 @@ def main():
     liquido_val = ativos_val - passivos_val
 
     # --- Val PJ: runway "atual" e "proposto" (busca por rótulo) ---
-    valpj = get_range("'Val PJ'!A1:F40")
-    solvA_raw = find_label_value(valpj, "Solvente A (atual) - runway c/ juros")
-    solvB_raw = find_label_value(valpj, "Solvente B (proposto) - runway c/ juros")
-    if solvA_raw is None or solvB_raw is None:
-        die("não achei as linhas Solvente A/B em 'Val PJ'")
-    try:
-        solvA_meses = float(solvA_raw)
-        solvB_meses = float(solvB_raw)
-    except ValueError:
-        die("valor de runway em 'Val PJ' não é número")
+    solvA_meses = money(cell(21, 0))  # C21 = Solvente A (atual)
+    solvB_meses = money(cell(22, 0))  # C22 = Solvente B (proposto)
+    if solvA_meses is None or solvB_meses is None:
+        die("célula C21/C22 (Solvente A/B) vazia ou não numérica")
 
     # --- VALIDAÇÃO DE SANIDADE (mesmos limites de sempre) ---
     checks = [
