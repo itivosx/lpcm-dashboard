@@ -106,7 +106,7 @@ def main():
     debt_total_all = debt_subtotal + financeiras_subtotal
     
     # --- Fluxo / Ativos vs Divida: células confirmadas diretamente ---
-    fluxo = get_range("'Fluxo / Ativos vs Divida'!C1:M20")
+    fluxo = get_range("'Fluxo / Ativos vs Divida'!C1:M25")
 
     def cell(row, col):
         try:
