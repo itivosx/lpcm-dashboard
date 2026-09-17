@@ -79,28 +79,32 @@ def main():
         except Exception as e:
             die(f"falha lendo '{a1}': {e}")
 
-    # --- Balanço: credores e financeiras (busca por rótulo, robusto) ---
-    balanco = get_range("Balanço!A1:O30")
+    # --- Balanço: células confirmadas diretamente (G5:J15 credores, K5:M8 financeiras) ---
+    ff_rows = get_range("Balanço!G5:J15")   # 11 linhas, uma por credor, na ordem do CREDITORS
+    fin_rows = get_range("Balanço!K5:M8")   # 4 linhas, uma por financeira
+
     debt_vals = {}
-    for code, name in CREDITORS:
-        v = find_label_value(balanco, name, value_col_offset=3)  # coluna "Corrigido"
-        fv = money(v)
+    for (code, name), row in zip(CREDITORS, ff_rows):
+        if len(row) < 4:
+            die(f"linha do credor '{name}' incompleta (esperava 4 colunas, veio {len(row)})")
+        fv = money(row[3])  # coluna J = Corrigido
         if fv is None:
-            die(f"não achei valor corrigido do credor '{name}'")
+            die(f"valor corrigido do credor '{name}' não é número: {row}")
         debt_vals[code] = fv
 
     fin_vals = {}
-    for name in FINANCEIRAS:
-        v = find_label_value(balanco, name, value_col_offset=1)
-        fv = money(v)
+    for name, row in zip(FINANCEIRAS, fin_rows):
+        if len(row) < 2:
+            die(f"linha da financeira '{name}' incompleta: {row}")
+        fv = money(row[1])  # coluna L = Value
         if fv is None:
-            die(f"não achei valor de financeira '{name}'")
+            die(f"valor de financeira '{name}' não é número: {row}")
         fin_vals[name] = fv
 
     debt_subtotal = sum(debt_vals.values())
     financeiras_subtotal = sum(fin_vals.values())
     debt_total_all = debt_subtotal + financeiras_subtotal
-
+    
     # --- Fluxo / Ativos vs Divida: células confirmadas diretamente ---
     fluxo = get_range("'Fluxo / Ativos vs Divida'!C1:M20")
 
