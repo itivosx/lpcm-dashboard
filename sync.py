@@ -111,10 +111,10 @@ def main():
             return None
 
     # colunas: C=2(idx), G=6, L=11 (0-indexed)
-    ativos_val = money(cell(4, 6))       # G4
-    passivos_val_raw = money(cell(6, 6))  # G6 (negativo)
-    flow_atual_val = money(cell(7, 2))    # C7 = Fluxo I tot
-    flow_futuro_val = money(cell(9, 2))   # C9 = Fluxo II tot
+    ativos_val = money(cell(4, 4))        # G4 (intervalo começa em C, então G = índice 4)
+    passivos_val_raw = money(cell(6, 4))  # G6 (negativo)
+    flow_atual_val = money(cell(7, 0))    # C7 = Fluxo I tot (índice 0 = coluna C)
+    flow_futuro_val = money(cell(9, 0))   # C9 = Fluxo II tot
 
     if None in (ativos_val, passivos_val_raw, flow_atual_val, flow_futuro_val):
         die("célula esperada vazia em 'Fluxo / Ativos vs Divida'")
